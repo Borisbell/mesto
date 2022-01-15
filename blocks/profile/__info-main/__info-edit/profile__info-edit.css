@@ -1,0 +1,12 @@
+.profile__info-edit{
+  background-color: var(--bg-dark-color);
+  border: solid 1px var(--font-color);
+  width: 24px;
+  height: 24px;
+  transition: opacity 0.3s;
+  cursor: pointer;
+}
+
+.profile__info-edit:hover{
+  opacity: 0.6;
+}
