@@ -7,4 +7,4 @@
 * css: flex-box, grid, media-queries
 * js
 
-[Проект на GitHub Pages]().
+[Проект на GitHub Pages](https://borisbell.github.io/mesto/).
