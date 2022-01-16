@@ -20,7 +20,8 @@ let formElement = document.querySelector('.popup__form');
 let nameInput = document.querySelector('.popup__input-name');
 let jobInput = document.querySelector('.popup__input-job');
 
-// console.log(profileName);
+nameInput.value = "Жак Ив Кусто";
+jobInput.value = "Исследователь океана";
 
 function formSubmitHandler (evt) {
   evt.preventDefault();
@@ -28,6 +29,14 @@ function formSubmitHandler (evt) {
   // Получите значение полей jobInput и nameInput из свойства value
   let newName = nameInput.value;
   let newJob = jobInput.value;
+
+  if (newName === ""){
+    newName = "Жак Ив Кусто";
+  }
+
+  if (newJob === ""){
+    newJob = "Исследователь океана";
+  }
   // Выберите элементы, куда должны быть вставлены значения полей
   let profileName = document.querySelector('.profile__info-name');
   let profileJob = document.querySelector('.profile__info-job');

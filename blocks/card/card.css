@@ -6,3 +6,15 @@
   border-radius: 10px;
   background-color: var(--font-color);
 }
+
+@media screen and ( max-width: 920px ) {
+  .card{
+    width: 100%;
+  }
+}
+
+@media screen and ( max-width: 320px ) {
+  .card{
+    width: 282px;
+  }
+}

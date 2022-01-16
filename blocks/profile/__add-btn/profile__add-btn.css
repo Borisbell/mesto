@@ -10,3 +10,10 @@
 .profile__add-btn:hover{
   opacity: 0.6;
 }
+
+@media screen and ( max-width: 768px ) {
+  .profile__add-btn{
+    width: calc( 100% - 40px );
+    margin: 0 auto;
+  }
+}

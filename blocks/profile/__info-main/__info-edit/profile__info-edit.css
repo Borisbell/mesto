@@ -1,5 +1,7 @@
 .profile__info-edit{
-  background-color: var(--bg-dark-color);
+  margin: 0;
+  padding: 0;
+  background-color: transparent;
   border: solid 1px var(--font-color);
   width: 24px;
   height: 24px;
@@ -9,4 +11,12 @@
 
 .profile__info-edit:hover{
   opacity: 0.6;
+}
+
+@media screen and ( max-width: 500px ) {
+  .profile__info-edit{
+    position: relative;
+    width: 18px;
+    height: 18px;
+  }
 }
