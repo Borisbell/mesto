@@ -9,10 +9,10 @@
 @font-face {
   font-family: 'Inter';
 	src:
-    url('../vendors/fonts/Inter-Bold.woff'),
-    url('../vendors/fonts/Inter-Bold.woff2');
+    url('../vendors/fonts/Inter-Black.woff'),
+    url('../vendors/fonts/Inter-Black.woff2');
 
-	font-weight: bold;
+	font-weight: 900;
 }
 
 @font-face {
