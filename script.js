@@ -3,7 +3,6 @@ let popup = document.querySelector('.popup');
 let popupCloseButton = document.querySelector('.popup__close-btn');
 
 // Open and close popup
-
 function openPopup(){
   popup.classList.add('popup__opened');
 }
@@ -14,6 +13,11 @@ function closePopup(){
 
 editbutton.addEventListener('click', openPopup);
 popupCloseButton.addEventListener('click', closePopup);
+popup.addEventListener('click', function(e){
+  if(e.target === e.currentTarget){
+    closePopup()
+  }
+})
 
 // Edit profile data
 let formElement = document.querySelector('.popup__form');
