@@ -1,5 +1,5 @@
 .profile__add-btn{
-  background: url(/images/profile/add-btn-icon.svg) center no-repeat;
+  background: url(../../../images/profile/add-btn-icon.svg) center no-repeat;
   border: solid 2px var(--font-color);
   border-radius: 2px;
   width: 150px;

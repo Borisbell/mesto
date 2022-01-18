@@ -4,7 +4,7 @@
   height: 32px;
   top: -48px;
   right: -48px;
-  background: url(/images/popup/close-icon.svg) center no-repeat;
+  background: url(../../../images/popup/close-icon.svg) center no-repeat;
   border: none;
   cursor: pointer;
   transition: opacity 0.3s;

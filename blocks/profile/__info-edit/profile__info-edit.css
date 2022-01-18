@@ -1,7 +1,7 @@
 .profile__info-edit{
   margin: 0;
   padding: 0;
-  background: url(/images/profile/edit-btn-icon.svg) center no-repeat;
+  background: url(../../../images/profile/edit-btn-icon.svg) center no-repeat;
   border: solid 1px var(--font-color);
   width: 24px;
   height: 24px;
