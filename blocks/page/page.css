@@ -1,5 +1,6 @@
 .page {
 	background-color: var(--bg-dark-color);
+  min-height: 100vh;
 	color: var(--font-color);
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;

@@ -1,4 +1,4 @@
-.popup__submit{
+.popup__submit {
   width: 100%;
   background-color: var(--bg-dark-color);
   color: var(--font-color);
@@ -11,8 +11,16 @@
   line-height: 22px;
   text-align: center;
   transition: opacity 0.3s;
+  cursor: pointer;
 }
 
 .popup__submit:hover{
   opacity: 0.8;
+}
+
+@media screen and ( max-width: 768px ) {
+  .popup__submit {
+    height: 46px;
+    font-size: 14px;
+  }
 }

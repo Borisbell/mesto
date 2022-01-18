@@ -1,6 +1,7 @@
 .profile__add-btn{
-  background-color: var(--bg-dark-color);
-  border: solid 1px var(--font-color);
+  background: url(/images/profile/add-btn-icon.svg) center no-repeat;
+  border: solid 2px var(--font-color);
+  border-radius: 2px;
   width: 150px;
   height: 50px;
   cursor: pointer;
@@ -13,7 +14,8 @@
 
 @media screen and ( max-width: 768px ) {
   .profile__add-btn{
-    width: calc( 100% - 40px );
+    width: 100%;
     margin: 0 auto;
+    background-size: 16px 16px;
   }
 }

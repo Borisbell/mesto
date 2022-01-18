@@ -5,4 +5,20 @@
   font-weight: normal;
   font-size: 18px;
   line-height: 0.8;
+  text-overflow: ellipsis;
+  max-width: 500px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+@media screen and ( max-width: 920px ) {
+  .profile__info-job{
+    max-width: 350px;
+  }
+}
+
+@media screen and ( max-width: 425px ) {
+  .profile__info-job {
+    max-width: 220px;
+  }
 }

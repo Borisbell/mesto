@@ -1,9 +1,19 @@
+// Buttons+popup
 let editbutton = document.querySelector('.profile__info-edit');
 let popup = document.querySelector('.popup');
 let popupCloseButton = document.querySelector('.popup__close-btn');
+// Profile info
+let profileName = document.querySelector('.profile__info-name');
+let profileJob = document.querySelector('.profile__info-job');
+// Inputs
+let formElement = document.querySelector('.popup__form');
+let nameInput = document.querySelector('.popup__input_content_name');
+let jobInput = document.querySelector('.popup__input_content_job');
 
 // Open and close popup
 function openPopup(){
+  nameInput.value = profileName.textContent;
+  jobInput.value = profileJob.textContent;
   popup.classList.add('popup__opened');
 }
 
@@ -11,45 +21,25 @@ function closePopup(){
   popup.classList.remove('popup__opened');
 }
 
-editbutton.addEventListener('click', openPopup);
-popupCloseButton.addEventListener('click', closePopup);
-popup.addEventListener('click', function(e){
-  if(e.target === e.currentTarget){
-    closePopup()
-  }
-})
-
-// Edit profile data
-let formElement = document.querySelector('.popup__form');
-let nameInput = document.querySelector('.popup__input-name');
-let jobInput = document.querySelector('.popup__input-job');
-
-nameInput.value = "Жак Ив Кусто";
-jobInput.value = "Исследователь океана";
-
 function formSubmitHandler (evt) {
   evt.preventDefault();
-
   // Получите значение полей jobInput и nameInput из свойства value
   let newName = nameInput.value;
   let newJob = jobInput.value;
-
-  if (newName === ""){
-    newName = "Жак Ив Кусто";
-  }
-
-  if (newJob === ""){
-    newJob = "Исследователь океана";
-  }
-  // Выберите элементы, куда должны быть вставлены значения полей
-  let profileName = document.querySelector('.profile__info-name');
-  let profileJob = document.querySelector('.profile__info-job');
   // Вставьте новые значения с помощью textContent
   profileName.textContent = newName;
   profileJob.textContent = newJob;
   closePopup()
 }
 
+editbutton.addEventListener('click', openPopup);
+popupCloseButton.addEventListener('click', closePopup);
+
 // Прикрепляем обработчик к форме:
 // он будет следить за событием “submit” - «отправка»
 formElement.addEventListener('submit', formSubmitHandler);
+
+
+
+
+

@@ -1,7 +1,7 @@
 .profile__info-edit{
   margin: 0;
   padding: 0;
-  background-color: transparent;
+  background: url(/images/profile/edit-btn-icon.svg) center no-repeat;
   border: solid 1px var(--font-color);
   width: 24px;
   height: 24px;
@@ -15,8 +15,8 @@
 
 @media screen and ( max-width: 500px ) {
   .profile__info-edit{
-    position: relative;
     width: 18px;
     height: 18px;
+    background-size: 7.5px 7.5px;
   }
 }

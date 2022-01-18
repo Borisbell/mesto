@@ -1,11 +1,11 @@
 .card__img{
   width: 282px;
   height: 282px;
+  object-fit: cover;
 }
 
 @media screen and ( max-width: 920px ) {
   .card__img {
-    object-fit: cover;
     width: 100%;
   }
 }
