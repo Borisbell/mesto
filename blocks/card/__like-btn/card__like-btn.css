@@ -5,6 +5,7 @@
   width: 22px;
   height: 19px;
   cursor: pointer;
+  flex: none;
   transition: opacity 0.3s;
 }
 
