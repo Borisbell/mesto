@@ -10,6 +10,13 @@
   }
 }
 
+@media screen and ( max-width: 590px ) {
+  .popup__container_type_form {
+    min-width: 430px;
+    max-width: calc(100% - 40px);
+  }
+}
+
 @media screen and ( max-width: 480px ) {
   .popup__container_type_form {
     min-width: calc(100% - 40px);
