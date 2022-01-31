@@ -1,0 +1,10 @@
+.popup__zoom-img{
+  max-width: 75vw;
+  max-height: 75vh;
+}
+
+@media screen and ( max-width: 590px ) {
+  .popup__zoom-img{
+    max-width: 100%;
+  }
+}

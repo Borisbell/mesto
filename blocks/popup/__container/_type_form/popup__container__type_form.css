@@ -1,0 +1,23 @@
+.popup__container_type_form {
+  background-color: var(--font-color);
+  padding: 34px 37px 36px;
+  border-radius: 10px;
+}
+
+@media screen and ( max-width: 768px ) {
+  .popup__container_type_form {
+    padding: 25px 22px;
+  }
+}
+
+@media screen and ( max-width: 480px ) {
+  .popup__container_type_form {
+    min-width: calc(100% - 40px);
+  }
+}
+
+@media screen and ( max-width: 320px ) {
+  .popup__container_type_form {
+    min-width: 282px;
+  }
+}

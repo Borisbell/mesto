@@ -32,74 +32,61 @@
         </button>
       </section>
       <section class="elements">
-        <article class="card">
-          <img src="https://picsum.photos/600/600?random=1" alt="фоновая картинка карточки" class="card__img">
-          <div class="card__content">
-            <h2 class="name">Карачаевск</h2>
-            <button aria-label="Нравиться" type="button" class="card__like-btn">
-            </button>
-          </div>
-        </article>
-        <article class="card">
-          <img src="https://picsum.photos/600/600?random=2" alt="фоновая картинка карточки" class="card__img">
-          <div class="card__content">
-            <h2 class="name">Гора Эльбрус</h2>
-            <button aria-label="Нравиться" type="button" class="card__like-btn">
-            </button>
-          </div>
-        </article>
-        <article class="card">
-          <img src="https://picsum.photos/600/600?random=3" alt="фоновая картинка карточки" class="card__img">
-          <div class="card__content">
-            <h2 class="name">Домбай</h2>
-            <button aria-label="Нравиться" type="button" class="card__like-btn">
-            </button>
-          </div>
-        </article>
-        <article class="card">
-          <img src="https://picsum.photos/600/600?random=4" alt="фоновая картинка карточки" class="card__img">
-          <div class="card__content">
-            <h2 class="name">Гора Эльбрус</h2>
-            <button aria-label="Нравиться" type="button" class="card__like-btn">
-            </button>
-          </div>
-        </article>
-        <article class="card">
-          <img src="https://picsum.photos/600/600?random=5" alt="фоновая картинка карточки" class="card__img">
-          <div class="card__content">
-            <h2 class="name">Домбай</h2>
-            <button aria-label="Нравиться" type="button" class="card__like-btn">
-            </button>
-          </div>
-        </article>
-        <article class="card">
-          <img src="https://picsum.photos/600/600?random=6" alt="фоновая картинка карточки" class="card__img">
-          <div class="card__content">
-            <h2 class="name">Карачаево-Черкессия</h2>
-            <button aria-label="Нравиться" type="button" class="card__like-btn">
-            </button>
-          </div>
-        </article>
+
       </section>
     </main>
     <footer class="footer">
       <p class="footer__copyright">© 2020 Mesto Russia</p>
     </footer>
   </div>
-  <div class="popup">
-    <div class="popup__container">
+  <div class="popup popup_type_bio">
+    <div class="popup__container popup__container_type_form">
       <button aria-label="Закрыть" type="button" class="popup__close-btn">
       </button>
       <h2 class="name name_place_popup">Редактировать профиль</h2>
       <form name="profile-edit" class="popup__form">
         <fieldset class="popup__fieldset">
-          <input type="text" name="firstname" class="popup__input popup__input_content_name" placeholder="Введите имя">
+          <input type="text" name="firstname" class="popup__input popup__input_content_user-name" placeholder="Введите имя">
           <input type="text" name="job" class="popup__input popup__input_content_job" placeholder="Введите профессию">
         </fieldset>
         <button aria-label="Отправить" type="submit" class="popup__submit">Сохранить</button>
       </form>
     </div>
   </div>
+  <div class="popup popup_type_place">
+    <div class="popup__container popup__container_type_form">
+      <button aria-label="Закрыть" type="button" class="popup__close-btn">
+      </button>
+      <h2 class="name name_place_popup">Новое место</h2>
+      <form name="place-add" class="popup__form-place">
+        <fieldset class="popup__fieldset">
+          <input type="text" name="place-name" class="popup__input popup__input_content_place-name" placeholder="Название">
+          <input type="url" name="image" class="popup__input popup__input_content_img" placeholder="Ссылка на картинку">
+        </fieldset>
+        <button aria-label="Отправить" type="submit" class="popup__submit">Создать</button>
+      </form>
+    </div>
+  </div>
+  <div class="popup popup_type_img-zoom">
+    <div class="popup__container">
+      <button aria-label="Закрыть" type="button" class="popup__close-btn">
+      </button>
+      <img src="" alt="картинка с карточки во весь экран" class="popup__zoom-img">
+      <p class="popup__description">Новое место</p>
+    </div>
+  </div>
+  <template id="card__template">
+    <article class="card">
+      <button aria-label="Удалить" type="button" class="card__delete-btn">
+      </button>
+      <img src="https://picsum.photos/600/600?random=1" alt="фоновая картинка карточки" class="card__img">
+      <div class="card__content">
+        <h2 class="name name_place_card">Карачаевск</h2>
+        <button aria-label="Нравится" type="button" class="card__like-btn">
+        </button>
+      </div>
+    </article>
+  </template>
   <script src="./scripts/index.js"></script>
 </body>
 </html>
