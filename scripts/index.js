@@ -28,7 +28,7 @@ const initialCards = [
 // Buttons+popup
 const editButton = document.querySelector('.profile__info-edit');
 const addPlaceButton = document.querySelector('.profile__add-btn');
-const popup = document.querySelector('.popup');
+const popups = document.querySelectorAll('.popup');
 const popupBio = document.querySelector('.popup_type_bio');
 const popupAddPlace = document.querySelector('.popup_type_place');
 const popupCloseButtons = document.querySelectorAll('.popup__close-btn');
@@ -154,3 +154,17 @@ popupCloseButtons.forEach( button =>
     closePopup(event.target.closest('.popup'));
   })
 );
+
+popups.forEach( popup => {
+  popup.addEventListener('click', function(e){
+    if(e.target === e.currentTarget){
+      closePopup(popup)
+    }
+  })
+
+  document.addEventListener('keydown', function(evt) {
+      if(evt.key == 'Escape') {
+        closePopup(popup)
+      };
+    })
+  });

@@ -32,7 +32,6 @@
         </button>
       </section>
       <section class="elements">
-
       </section>
     </main>
     <footer class="footer">
@@ -44,10 +43,12 @@
       <button aria-label="Закрыть" type="button" class="popup__close-btn">
       </button>
       <h2 class="name name_place_popup">Редактировать профиль</h2>
-      <form name="profile-edit" class="popup__form">
+      <form name="profile-edit" class="popup__form" novalidate>
         <fieldset class="popup__fieldset">
-          <input type="text" name="firstname" class="popup__input popup__input_content_user-name" placeholder="Введите имя">
-          <input type="text" name="job" class="popup__input popup__input_content_job" placeholder="Введите профессию">
+          <input id="firstname" type="text" name="firstname" class="popup__input popup__input_content_user-name" placeholder="Введите имя" required minlength="2" maxlength="40">
+          <span id="error-firstname" class="error-message error-message_visible"></span>
+          <input id="job" type="text" name="job" class="popup__input popup__input_content_job" placeholder="Введите профессию" required minlength="2" maxlength="200">
+          <span id="error-job" class="error-message error-message_visible"></span>
         </fieldset>
         <button aria-label="Отправить" type="submit" class="popup__submit">Сохранить</button>
       </form>
@@ -58,10 +59,12 @@
       <button aria-label="Закрыть" type="button" class="popup__close-btn">
       </button>
       <h2 class="name name_place_popup">Новое место</h2>
-      <form name="place-add" class="popup__form-place">
+      <form name="place-add" class="popup__form popup__form-place" novalidate>
         <fieldset class="popup__fieldset">
-          <input type="text" name="place-name" class="popup__input popup__input_content_place-name" placeholder="Название">
-          <input type="url" name="image" class="popup__input popup__input_content_img" placeholder="Ссылка на картинку">
+          <input id="place-name" type="text" name="place-name" class="popup__input popup__input_content_place-name" placeholder="Название" required minlength="2" maxlength="30">
+          <span id="error-place-name" class="error-message error-message_visible"></span>
+          <input id="image" type="url" name="image" class="popup__input popup__input_content_img" placeholder="Ссылка на картинку" required>
+          <span id="error-image" class="error-message error-message_visible"></span>
         </fieldset>
         <button aria-label="Отправить" type="submit" class="popup__submit">Создать</button>
       </form>
@@ -88,5 +91,6 @@
     </article>
   </template>
   <script src="./scripts/index.js"></script>
+  <script src="./scripts/validate.js"></script>
 </body>
 </html>

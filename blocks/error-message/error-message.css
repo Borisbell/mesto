@@ -1,0 +1,8 @@
+.error-message {
+  font-family: "Inter", Arial, Helvetica, sans-serif;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: .8;
+  color: #FF0000;
+  margin-bottom: 13px;
+}
