@@ -1,8 +1,14 @@
 .error-message {
+  display: inline-block;
   font-family: "Inter", Arial, Helvetica, sans-serif;
   font-weight: normal;
   font-size: 12px;
-  line-height: .8;
+  line-height: 1.2;
   color: #FF0000;
   margin-bottom: 13px;
+  max-width: 358px;
+}
+
+.error-message:last-child {
+  margin-bottom: 32px;
 }

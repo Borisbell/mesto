@@ -138,7 +138,6 @@ function formPlaceSubmitHandler (evt) {
   evt.preventDefault();
   const newPlaceName = placeNameInput.value;
   const imgLink = imgLinkInput.value;
-  // renderItem({ name: newPlaceName, link: imgLink });
   addCard(elements, createCard({ name: newPlaceName, link: imgLink }))
   popupAddPlace.querySelector('form').reset();
   closePopup(popupAddPlace);
@@ -163,8 +162,8 @@ popups.forEach( popup => {
   })
 
   document.addEventListener('keydown', function(evt) {
-      if(evt.key == 'Escape') {
-        closePopup(popup)
-      };
-    })
-  });
+    if(evt.key == 'Escape') {
+      closePopup(popup)
+    };
+  })
+});

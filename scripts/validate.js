@@ -1,94 +1,65 @@
-// const formSubmit = (evt, form) => {
-//   evt.preventDefault();
-
-//   if (form.checkValidity()) {
-//     form.reset();
-//   }
-// }
-
-const setInputValid = (errorMessage, input) => {
+const setInputValid = (config, errorMessage, input) => {
   errorMessage.textContent = '';
-  input.classList.remove('popup__input_type_error');
+  input.classList.remove(config.inputErrorClass);
 }
 
-const setInputInvalid = (errorMessage, input) => {
+const setInputInvalid = (config, errorMessage, input) => {
   errorMessage.textContent = input.validationMessage;
-  input.classList.add('popup__input_type_error');
+  input.classList.add(config.inputErrorClass);
 }
 
-const checkInputValidity = (form, input) => {
+const checkInputValidity = (config, form, input) => {
   const errorMessage = form.querySelector(`#error-${input.id}`);
   if (input.validity.valid) {
-    setInputValid(errorMessage, input);
+    setInputValid(config, errorMessage, input);
   } else {
-    setInputInvalid(errorMessage, input);
-  }
-}
-
-const disableButton = (button) => {
-  button.setAttribute('disabled', '');
-  button.classList.add('popup__submit_disabled');
-}
-
-const checkButtonValidity = (form, button) => {
-  if (form.checkValidity()) {
-    button.removeAttribute('disabled');
-    button.classList.remove('popup__submit_disabled');
-  } else {
-    disableButton(button);
+    setInputInvalid(config, errorMessage, input);
   }
 }
 
 const hasInvalidInput = (inputList) => {
-  // проходим по этому массиву методом some
   return inputList.some((input) => {
-    // Если поле не валидно, колбэк вернёт true
-    // Обход массива прекратится и вся фунцкция
-    // hasInvalidInput вернёт true
     return !input.validity.valid;
   })
 };
 
-const toggleButtonState = (inputList, button) => {
-  // Если есть хотя бы один невалидный инпут
+const toggleButtonState = (config, inputList, button) => {
   if (hasInvalidInput(inputList)) {
-    // сделай кнопку неактивной
     button.setAttribute('disabled', '');
-    button.classList.add('popup__submit_disabled');
+    button.classList.add(config.inactiveButtonClass);
   } else {
-    // иначе сделай кнопку активной
     button.removeAttribute('disabled');
-    button.classList.remove('popup__submit_disabled');
+    button.classList.remove(config.inactiveButtonClass);
   }
 };
 
-const setEventListeners = (form) => {
-  // Находим все поля внутри формы,
-  // сделаем из них массив методом Array.from
-  const inputList = Array.from(form.querySelectorAll('.popup__input'));
-  const button = form.querySelector('.popup__submit');
-  // Обойдём все элементы полученной коллекции
+const setEventListeners = (config, form) => {
+  const inputList = Array.from(form.querySelectorAll(config.inputSelector));
+  const button = form.querySelector(config.submitButtonSelector);
   inputList.forEach((input) => {
-    // каждому полю добавим обработчик события input
     input.addEventListener('input', () => {
-      // Внутри колбэка вызовем checkInputValidity,
-      // передав ей форму и проверяемый элемент
-      checkInputValidity(form, input);
-      toggleButtonState(inputList, button);
+      checkInputValidity(config, form, input);
+      toggleButtonState(config, inputList, button);
     });
   });
 };
 
-function enableValidation() {
-  const formList = Array.from(document.querySelectorAll('.popup__form'));
+function enableValidation(config) {
+  const formList = Array.from(document.querySelectorAll(config.formSelector));
 
   formList.forEach(form => {
     form.addEventListener('submit', (evt) => {
       evt.preventDefault();
     })
 
-    setEventListeners(form);
+    setEventListeners(config, form);
   })
 }
 
-enableValidation();
+enableValidation({
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__submit',
+  inactiveButtonClass: 'popup__submit_disabled',
+  inputErrorClass: 'popup__input_type_error',
+});
