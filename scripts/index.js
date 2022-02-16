@@ -31,9 +31,11 @@ const addPlaceButton = document.querySelector('.profile__add-btn');
 const popups = document.querySelectorAll('.popup');
 const popupBio = document.querySelector('.popup_type_bio');
 const popupAddPlace = document.querySelector('.popup_type_place');
+const addPlaceForm = popupAddPlace.querySelector('form');
 const popupCloseButtons = document.querySelectorAll('.popup__close-btn');
 const popupZoomImg = document.querySelector('.popup_type_img-zoom');
-
+const popupDescription = document.querySelector('.popup__description');
+const zoomImage = document.querySelector('.popup__zoom-img');
 
 // Profile info
 const profileName = document.querySelector('.profile__info-name');
@@ -88,21 +90,30 @@ function handleDelete(event) {
   event.target.closest('.card').remove();
 }
 
+function closeByEscape(evt) {
+  if (evt.key === 'Escape') {
+    const openedPopup = document.querySelector('.popup_opened');
+    closePopup(openedPopup);
+  }
+}
+
 // Open any popup
 function openPopup(popup) {
   popup.classList.add('popup_opened');
+  document.addEventListener('keydown', closeByEscape);
 }
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
+  document.removeEventListener('keydown', closeByEscape);
 }
 
 function handleImgClick(event) {
   const imgLink = event.target.src;
   const card = event.target.closest('.card');
   const placeName = card.querySelector('.name_place_card').textContent;
-  document.querySelector('.popup__description').textContent = placeName;
-  document.querySelector('.popup__zoom-img').src = imgLink;
-  document.querySelector('.popup__zoom-img').alt = placeName;
+  popupDescription.textContent = placeName;
+  zoomImage.src = imgLink;
+  zoomImage.alt = placeName;
   openPopup(popupZoomImg);
 }
 
@@ -121,7 +132,7 @@ function openPopupAddPlace(){
 }
 
 // Update bio
-function formBioSubmitHandler (evt) {
+function handleFormBioSubmit (evt) {
   evt.preventDefault();
   // Получите значение полей jobInput и nameInput из свойства value
   const newName = nameInput.value;
@@ -134,18 +145,18 @@ function formBioSubmitHandler (evt) {
 }
 
 // Add new card
-function formPlaceSubmitHandler (evt) {
+function handleFormPlaceSubmit (evt) {
   evt.preventDefault();
   const newPlaceName = placeNameInput.value;
   const imgLink = imgLinkInput.value;
   addCard(elements, createCard({ name: newPlaceName, link: imgLink }))
-  popupAddPlace.querySelector('form').reset();
+  addPlaceForm.reset();
   closePopup(popupAddPlace);
 }
 
 editButton.addEventListener('click', openPopupBio);
-formElement.addEventListener('submit', formBioSubmitHandler);
-formPlace.addEventListener('submit', formPlaceSubmitHandler);
+formElement.addEventListener('submit', handleFormBioSubmit);
+formPlace.addEventListener('submit', handleFormPlaceSubmit);
 addPlaceButton.addEventListener('click', openPopupAddPlace);
 
 popupCloseButtons.forEach( button =>
@@ -154,16 +165,10 @@ popupCloseButtons.forEach( button =>
   })
 );
 
-popups.forEach( popup => {
+popups.forEach(popup => {
   popup.addEventListener('click', function(e){
     if(e.target === e.currentTarget){
       closePopup(popup)
     }
-  })
-
-  document.addEventListener('keydown', function(evt) {
-    if(evt.key == 'Escape') {
-      closePopup(popup)
-    };
   })
 });
