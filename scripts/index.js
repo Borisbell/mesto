@@ -1,3 +1,7 @@
+import { FormValidator } from './FormValidator.js';
+import { Card } from './Card.js';
+import {openPopup, closePopup} from './utils.js';
+
 const initialCards = [
   {
     name: 'Архыз',
@@ -33,9 +37,6 @@ const popupBio = document.querySelector('.popup_type_bio');
 const popupAddPlace = document.querySelector('.popup_type_place');
 const addPlaceForm = popupAddPlace.querySelector('form');
 const popupCloseButtons = document.querySelectorAll('.popup__close-btn');
-const popupZoomImg = document.querySelector('.popup_type_img-zoom');
-const popupDescription = document.querySelector('.popup__description');
-const zoomImage = document.querySelector('.popup__zoom-img');
 
 // Profile info
 const profileName = document.querySelector('.profile__info-name');
@@ -53,68 +54,35 @@ const imgLinkInput = document.querySelector('.popup__input_content_img');
 
 // Card Template
 const cardTemplate = document.querySelector('#card__template').content;
-const cardImg = document.querySelector('.card__img');
-const cardName = document.querySelector('.name_place_card');
 const elements = document.querySelector('.elements');
 
-function createCard(obj) {
-  const newItem = cardTemplate.cloneNode(true);
-  newItem.querySelector('.name_place_card').textContent = obj.name;
-  newItem.querySelector('.card__img').src = obj.link;
-  newItem.querySelector('.card__img').alt = obj.name;
-  addListeners(newItem);
-  return newItem
+const validationConfig = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__submit',
+  inactiveButtonClass: 'popup__submit_disabled',
+  inputErrorClass: 'popup__input_type_error',
 }
 
+const editForm = document.querySelector('#form-profile-edit');
+const addCardForm = document.querySelector('#form-place-add');
+
+const editProfileValidator = new FormValidator(validationConfig, editForm);
+const addCardValidator = new FormValidator(validationConfig, addCardForm);
+
+editProfileValidator.enableValidation();
+addCardValidator.enableValidation();
+
 function addCard(container, cardElement) {
-  container.prepend(cardElement);
+  const card = new Card(cardElement, cardTemplate);
+  const filledCard = card.createCard();
+
+  container.prepend(filledCard);
 }
 
 //render initial cards
 function renderCards() {
-  initialCards.map(createCard).forEach((item)=>addCard(elements, item));
-}
-
-//Add listeners for elements inside rendered card
-function addListeners(el) {
-  el.querySelector('.card__like-btn').addEventListener('click', handleLike);
-  el.querySelector('.card__delete-btn').addEventListener('click', handleDelete);
-  el.querySelector('.card__img').addEventListener('click', handleImgClick);
-}
-
-function handleLike(event) {
-  event.target.classList.toggle('card__like-btn_state_active');
-}
-
-function handleDelete(event) {
-  event.target.closest('.card').remove();
-}
-
-function closeByEscape(evt) {
-  if (evt.key === 'Escape') {
-    const openedPopup = document.querySelector('.popup_opened');
-    closePopup(openedPopup);
-  }
-}
-
-// Open any popup
-function openPopup(popup) {
-  popup.classList.add('popup_opened');
-  document.addEventListener('keydown', closeByEscape);
-}
-function closePopup(popup) {
-  popup.classList.remove('popup_opened');
-  document.removeEventListener('keydown', closeByEscape);
-}
-
-function handleImgClick(event) {
-  const imgLink = event.target.src;
-  const card = event.target.closest('.card');
-  const placeName = card.querySelector('.name_place_card').textContent;
-  popupDescription.textContent = placeName;
-  zoomImage.src = imgLink;
-  zoomImage.alt = placeName;
-  openPopup(popupZoomImg);
+  initialCards.forEach((item)=>addCard(elements, item));
 }
 
 renderCards();
@@ -149,7 +117,8 @@ function handleFormPlaceSubmit (evt) {
   evt.preventDefault();
   const newPlaceName = placeNameInput.value;
   const imgLink = imgLinkInput.value;
-  addCard(elements, createCard({ name: newPlaceName, link: imgLink }))
+  const cardObj = {name: newPlaceName, link: imgLink};
+  addCard(elements, cardObj);
   addPlaceForm.reset();
   closePopup(popupAddPlace);
 }
@@ -166,7 +135,7 @@ popupCloseButtons.forEach( button =>
 );
 
 popups.forEach(popup => {
-  popup.addEventListener('click', function(e){
+  popup.addEventListener('mousedown', function(e){
     if(e.target === e.currentTarget){
       closePopup(popup)
     }
