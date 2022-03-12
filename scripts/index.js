@@ -1,6 +1,6 @@
 import { FormValidator } from './FormValidator.js';
 import { Card } from './Card.js';
-import {openPopup, closePopup} from './utils.js';
+import { openPopup, closePopup } from './utils.js';
 
 const initialCards = [
   {
@@ -73,22 +73,28 @@ const addCardValidator = new FormValidator(validationConfig, addCardForm);
 editProfileValidator.enableValidation();
 addCardValidator.enableValidation();
 
-function addCard(container, cardElement) {
-  const card = new Card(cardElement, cardTemplate);
-  const filledCard = card.createCard();
+function addCard(cardElement) {
+  const card = new Card(cardElement, '#card__template');
+  return card.createCard();
+}
 
-  container.prepend(filledCard);
+function placeCard(container, newCard) {
+  container.prepend(newCard);
 }
 
 //render initial cards
 function renderCards() {
-  initialCards.forEach((item)=>addCard(elements, item));
+  initialCards.forEach((item) => {
+    const newCard = addCard(item);
+    placeCard(elements, newCard);
+  });
 }
 
 renderCards();
 
 // Open popup edit profile
 function openPopupBio(){
+  editProfileValidator.toggleButtonState();
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
   openPopup(popupBio);
@@ -96,6 +102,7 @@ function openPopupBio(){
 
 // Open popup add place
 function openPopupAddPlace(){
+  addCardValidator.toggleButtonState();
   openPopup(popupAddPlace);
 }
 
@@ -108,7 +115,7 @@ function handleFormBioSubmit (evt) {
   // Вставьте новые значения с помощью textContent
   profileName.textContent = newName;
   profileJob.textContent = newJob;
-  popupAddPlace.querySelector('form').reset();
+  editForm.reset();
   closePopup(popupBio);
 }
 
@@ -118,7 +125,8 @@ function handleFormPlaceSubmit (evt) {
   const newPlaceName = placeNameInput.value;
   const imgLink = imgLinkInput.value;
   const cardObj = {name: newPlaceName, link: imgLink};
-  addCard(elements, cardObj);
+  const newCard = addCard(cardObj);
+  placeCard(elements, newCard);
   addPlaceForm.reset();
   closePopup(popupAddPlace);
 }

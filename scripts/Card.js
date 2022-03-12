@@ -1,8 +1,8 @@
 import {popupZoomImg, popupDescription, zoomImage, openPopup} from './utils.js'
 
 export class Card {
-  constructor(data, cardTemplate) {
-    this._cardTemplate = cardTemplate;
+  constructor(data, cardTemplateSelector) {
+    this._cardTemplate = document.querySelector(cardTemplateSelector).content.querySelector('.card');
     this._name = data.name;
     this._link = data.link;
   }
@@ -12,23 +12,21 @@ export class Card {
   }
 
   _handleDelete = () => {
-    this._deleteButton.closest('.card').remove();
+    this._newItem.remove();
+    this._newItem = null;
   }
 
-  _handleImgClick(event) {
-    const imgLink = event.target.src;
-    const card = event.target.closest('.card');
-    const placeName = card.querySelector('.name_place_card').textContent;
-    popupDescription.textContent = placeName;
-    zoomImage.src = imgLink;
-    zoomImage.alt = placeName;
+  _handleImgClick = () => {
+    popupDescription.textContent = this._name;
+    zoomImage.src = this._link;
+    zoomImage.alt = this._name;
     openPopup(popupZoomImg);
   }
 
   _setEventListeners() {
     this._likeButton.addEventListener('click', this._handleLike);
     this._deleteButton.addEventListener('click', this._handleDelete);
-    this._newItem.querySelector('.card__img').addEventListener('click', this._handleImgClick);
+    this._cardImg.addEventListener('click', this._handleImgClick);
   }
 
   createCard() {
@@ -36,9 +34,10 @@ export class Card {
     this._newItem.querySelector('.name_place_card').textContent = this._name;
     this._likeButton = this._newItem.querySelector('.card__like-btn');
     this._deleteButton = this._newItem.querySelector('.card__delete-btn');
+    this._cardImg = this._newItem.querySelector('.card__img');
 
-    this._newItem.querySelector('.card__img').src = this._link;
-    this._newItem.querySelector('.card__img').alt = this._name;
+    this._cardImg.src = this._link;
+    this._cardImg.alt = this._name;
 
     this._setEventListeners();
 
