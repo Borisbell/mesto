@@ -30,12 +30,11 @@ const initialCards = [
 ];
 
 // Buttons+popup
-const editButton = document.querySelector('.profile__info-edit');
-const addPlaceButton = document.querySelector('.profile__add-btn');
+const infoEditButton = document.querySelector('.profile__info-edit');
+const newPlaceButton = document.querySelector('.profile__add-btn');
 const popups = document.querySelectorAll('.popup');
 const popupBio = document.querySelector('.popup_type_bio');
 const popupAddPlace = document.querySelector('.popup_type_place');
-const addPlaceForm = popupAddPlace.querySelector('form');
 const popupCloseButtons = document.querySelectorAll('.popup__close-btn');
 
 // Profile info
@@ -53,7 +52,6 @@ const placeNameInput = document.querySelector('.popup__input_content_place-name'
 const imgLinkInput = document.querySelector('.popup__input_content_img');
 
 // Card Template
-const cardTemplate = document.querySelector('#card__template').content;
 const elements = document.querySelector('.elements');
 
 const validationConfig = {
@@ -64,14 +62,14 @@ const validationConfig = {
   inputErrorClass: 'popup__input_type_error',
 }
 
-const editForm = document.querySelector('#form-profile-edit');
+const profileEditForm = document.querySelector('#form-profile-edit');
 const addCardForm = document.querySelector('#form-place-add');
 
-const editProfileValidator = new FormValidator(validationConfig, editForm);
-const addCardValidator = new FormValidator(validationConfig, addCardForm);
+const profileEditValidator = new FormValidator(validationConfig, profileEditForm);
+const cardAddValidator = new FormValidator(validationConfig, addCardForm);
 
-editProfileValidator.enableValidation();
-addCardValidator.enableValidation();
+profileEditValidator.enableValidation();
+cardAddValidator.enableValidation();
 
 function addCard(cardElement) {
   const card = new Card(cardElement, '#card__template');
@@ -94,7 +92,7 @@ renderCards();
 
 // Open popup edit profile
 function openPopupBio(){
-  editProfileValidator.toggleButtonState();
+  profileEditValidator.toggleButtonState();
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
   openPopup(popupBio);
@@ -102,7 +100,7 @@ function openPopupBio(){
 
 // Open popup add place
 function openPopupAddPlace(){
-  addCardValidator.toggleButtonState();
+  cardAddValidator.toggleButtonState();
   openPopup(popupAddPlace);
 }
 
@@ -115,7 +113,7 @@ function handleFormBioSubmit (evt) {
   // Вставьте новые значения с помощью textContent
   profileName.textContent = newName;
   profileJob.textContent = newJob;
-  editForm.reset();
+  profileEditForm.reset();
   closePopup(popupBio);
 }
 
@@ -127,14 +125,14 @@ function handleFormPlaceSubmit (evt) {
   const cardObj = {name: newPlaceName, link: imgLink};
   const newCard = addCard(cardObj);
   placeCard(elements, newCard);
-  addPlaceForm.reset();
+  formPlace.reset();
   closePopup(popupAddPlace);
 }
 
-editButton.addEventListener('click', openPopupBio);
+infoEditButton.addEventListener('click', openPopupBio);
 formElement.addEventListener('submit', handleFormBioSubmit);
 formPlace.addEventListener('submit', handleFormPlaceSubmit);
-addPlaceButton.addEventListener('click', openPopupAddPlace);
+newPlaceButton.addEventListener('click', openPopupAddPlace);
 
 popupCloseButtons.forEach( button =>
   button.addEventListener('click', function(event){

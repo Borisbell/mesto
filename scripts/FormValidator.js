@@ -6,23 +6,23 @@ export class FormValidator {
     this._button = this._form.querySelector(this._settings.submitButtonSelector);
   }
 
-  _setInputInvalid(errorMessage, input) {
-    errorMessage.textContent = input.validationMessage;
+  _setInputInvalid(errorElement, input, errorMessage) {
+    errorElement.textContent = errorMessage;
     input.classList.add(this._settings.inputErrorClass);
   }
 
-  _setInputValid(errorMessage, input) {
-    errorMessage.textContent = '';
+  _setInputValid(errorElement, input) {
+    errorElement.textContent = '';
     input.classList.remove(this._settings.inputErrorClass);
   }
 
   _checkInputValidity(input) {
-    const errorMessage = this._form.querySelector(`#error-${input.id}`);
-
+    const errorElement = this._form.querySelector(`#error-${input.id}`);
+    const errorMessage = input.validationMessage;
     if (input.validity.valid) {
-      this._setInputValid(errorMessage, input);
+      this._setInputValid(errorElement, input);
     } else {
-      this._setInputInvalid(errorMessage, input);
+      this._setInputInvalid(errorElement, input, errorMessage);
     }
   }
 
