@@ -1,10 +1,11 @@
 import {popupZoomImg, popupDescription, zoomImage, openPopup} from './utils.js'
 
 export class Card {
-  constructor(data, cardTemplateSelector) {
+  constructor(data, cardTemplateSelector, handleImgClick) {
     this._cardTemplate = document.querySelector(cardTemplateSelector).content.querySelector('.card');
     this._name = data.name;
     this._link = data.link;
+    this._handleImgClick = handleImgClick;
   }
 
   _handleLike = () => {
@@ -16,12 +17,12 @@ export class Card {
     this._newItem = null;
   }
 
-  _handleImgClick = () => {
-    popupDescription.textContent = this._name;
-    zoomImage.src = this._link;
-    zoomImage.alt = this._name;
-    openPopup(popupZoomImg);
-  }
+  // _handleImgClick = () => {
+  //   popupDescription.textContent = this._name;
+  //   zoomImage.src = this._link;
+  //   zoomImage.alt = this._name;
+  //   openPopup(popupZoomImg);
+  // }
 
   _setEventListeners() {
     this._likeButton.addEventListener('click', this._handleLike);
