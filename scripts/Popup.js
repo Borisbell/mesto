@@ -16,17 +16,17 @@ export class Popup {
     document.addEventListener('keydown', this._handleEscClose);
   }
 
-  closePopup = () => {
+  closePopup() {
     this._popup.classList.remove('popup_opened');
     document.removeEventListener('keydown', this._handleEscClose);
   }
 
-  setEventListeners = () => {
+  setEventListeners() {
     this.closeButton.addEventListener('click', () => {
       this.closePopup();
     })
 
-    this._popup.addEventListener('click', (e) => {
+    this._popup.addEventListener('mousedown', (e) => {
       if(!e.target.closest('.popup__container')){
         this.closePopup();
       }

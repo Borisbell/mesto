@@ -3,7 +3,7 @@ import { Card } from './Card.js';
 import { Section } from './Section.js';
 import { PopupWithImage } from './PopupWithImage.js';
 import { PopupWithForm } from './PopupWithForm.js';
-import { openPopup, closePopup } from './utils.js';
+import { UserInfo } from './UserInfo.js';
 
 const initialCards = [
   {
@@ -35,17 +35,13 @@ const initialCards = [
 // Buttons+popup
 const infoEditButton = document.querySelector('.profile__info-edit');
 const newPlaceButton = document.querySelector('.profile__add-btn');
-// const popups = document.querySelectorAll('.popup');
 const popupBio = document.querySelector('.popup_type_bio');
-// // const popupAddPlace = document.querySelector('.popup_type_place');
-// const popupCloseButtons = document.querySelectorAll('.popup__close-btn');
 
 // Profile info
 const profileName = document.querySelector('.profile__info-name');
 const profileJob = document.querySelector('.profile__info-job');
 
 // Inputs profile popup
-// const formElement = document.querySelector('.popup__form');
 const nameInput = document.querySelector('.popup__input_content_user-name');
 const jobInput = document.querySelector('.popup__input_content_job');
 
@@ -89,58 +85,47 @@ function placeCard(container, newCard) {
 // Open popup edit profile
 function openPopupBio(){
   profileEditValidator.toggleButtonState();
-  nameInput.value = profileName.textContent;
-  jobInput.value = profileJob.textContent;
-  // openPopup(popupBio);
+  const data = userInfo.getUserInfo();
+  nameInput.value = data.name;
+  jobInput.value = data.job;
   updateBioPopup.openPopup();
 }
 
 // Open popup add place
 function openPopupAddPlace(){
   cardAddValidator.toggleButtonState();
-  // openPopup(popupAddPlace);
   addCardPopup.openPopup();
 }
 
 // Update bio
-function handleFormBioSubmit (evt) {
-  evt.preventDefault();
+function handleFormBioSubmit (data) {
   // Получите значение полей jobInput и nameInput из свойства value
-  const newName = nameInput.value;
-  const newJob = jobInput.value;
-  // Вставьте новые значения с помощью textContent
-  profileName.textContent = newName;
-  profileJob.textContent = newJob;
+  const newName = data.firstname;
+  const newJob = data.job;
+  userInfo.setUserInfo(newName, newJob);
   profileEditForm.reset();
-  // closePopup(popupBio);
   updateBioPopup.closePopup();
 }
 
 // Add new card
-function handleFormPlaceSubmit (evt) {
-  evt.preventDefault();
-  const newPlaceName = placeNameInput.value;
-  const imgLink = imgLinkInput.value;
-  const cardObj = {name: newPlaceName, link: imgLink};
+function handleFormPlaceSubmit(data) {
+  const cardObj = {name: data['place-name'], link: data.image};
   const newCard = addCard(cardObj);
-  placeCard(elements, newCard);
   section.addItem(newCard);
   formPlace.reset();
-  // closePopup(popupAddPlace);
   addCardPopup.closePopup();
 }
 
 infoEditButton.addEventListener('click', openPopupBio);
-// formElement.addEventListener('submit', handleFormBioSubmit);
-// formPlace.addEventListener('submit', handleFormPlaceSubmit);
 newPlaceButton.addEventListener('click', openPopupAddPlace);
 
 //PR-8
 const section = new Section({ items: initialCards, renderer: placeCard }, '.elements');
 
 const imagePopup = new PopupWithImage('.popup_type_img-zoom');
-const updateBioPopup = new PopupWithForm('.popup_type_bio');
-const addCardPopup = new PopupWithForm('.popup_type_place');
+const updateBioPopup = new PopupWithForm('.popup_type_bio', handleFormBioSubmit);
+const addCardPopup = new PopupWithForm('.popup_type_place', handleFormPlaceSubmit);
+const userInfo = new UserInfo('.profile__info-name',  '.profile__info-job');
 
 imagePopup.setEventListeners();
 updateBioPopup.setEventListeners();
