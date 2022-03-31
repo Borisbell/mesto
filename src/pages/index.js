@@ -68,9 +68,9 @@ function addCard(cardElement) {
   return card.createCard();
 }
 
-function placeCard(container, newCard) {
+function placeCard(newCard) {
   const card = addCard(newCard);
-  container.prepend(card);
+  section.addItem(card);
 }
 
 // Open popup edit profile

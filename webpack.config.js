@@ -50,7 +50,8 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './src/index.html' // путь к файлу index.html
+      template: './src/index.html', // путь к файлу index.html
+      favicon: './src/images/favicon.png',
     }),
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin()
