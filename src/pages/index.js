@@ -1,10 +1,10 @@
-import { FormValidator } from './FormValidator.js';
-import { Card } from './Card.js';
-import { Section } from './Section.js';
-import { PopupWithImage } from './PopupWithImage.js';
-import { PopupWithForm } from './PopupWithForm.js';
-import { UserInfo } from './UserInfo.js';
-import '../pages/index.css';
+import { FormValidator } from '../components/FormValidator.js';
+import { Card } from '../components/Card.js';
+import { Section } from '../components/Section.js';
+import { PopupWithImage } from '../components/PopupWithImage.js';
+import { PopupWithForm } from '../components/PopupWithForm.js';
+import { UserInfo } from '../components/UserInfo.js';
+import './index.css';
 
 const initialCards = [
   {
@@ -36,11 +36,6 @@ const initialCards = [
 // Buttons+popup
 const infoEditButton = document.querySelector('.profile__info-edit');
 const newPlaceButton = document.querySelector('.profile__add-btn');
-const popupBio = document.querySelector('.popup_type_bio');
-
-// Profile info
-const profileName = document.querySelector('.profile__info-name');
-const profileJob = document.querySelector('.profile__info-job');
 
 // Inputs profile popup
 const nameInput = document.querySelector('.popup__input_content_user-name');
@@ -48,11 +43,6 @@ const jobInput = document.querySelector('.popup__input_content_job');
 
 // Inputs places popup
 const formPlace = document.querySelector('.popup__form-place');
-const placeNameInput = document.querySelector('.popup__input_content_place-name');
-const imgLinkInput = document.querySelector('.popup__input_content_img');
-
-// Card Template
-const elements = document.querySelector('.elements');
 
 const validationConfig = {
   formSelector: '.popup__form',
@@ -104,7 +94,6 @@ function handleFormBioSubmit (data) {
   const newName = data.firstname;
   const newJob = data.job;
   userInfo.setUserInfo(newName, newJob);
-  profileEditForm.reset();
   updateBioPopup.closePopup();
 }
 

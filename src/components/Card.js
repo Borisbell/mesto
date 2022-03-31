@@ -1,5 +1,3 @@
-import {popupZoomImg, popupDescription, zoomImage, openPopup} from './utils.js'
-
 export class Card {
   constructor(data, cardTemplateSelector, handleImgClick) {
     this._cardTemplate = document.querySelector(cardTemplateSelector).content.querySelector('.card');
@@ -16,13 +14,6 @@ export class Card {
     this._newItem.remove();
     this._newItem = null;
   }
-
-  // _handleImgClick = () => {
-  //   popupDescription.textContent = this._name;
-  //   zoomImage.src = this._link;
-  //   zoomImage.alt = this._name;
-  //   openPopup(popupZoomImg);
-  // }
 
   _setEventListeners() {
     this._likeButton.addEventListener('click', this._handleLike);
