@@ -4,7 +4,22 @@ import { Section } from '../components/Section.js';
 import { PopupWithImage } from '../components/PopupWithImage.js';
 import { PopupWithForm } from '../components/PopupWithForm.js';
 import { UserInfo } from '../components/UserInfo.js';
+import { api } from '../components/Api.js';
 import './index.css';
+
+api.getProfile()
+  .then(res => {
+    console.log(res);
+    userInfo.setUserInfo(res.name, res.about);
+  })
+
+  api.getInitialCards()
+  .then( cardList => {
+    cardList.forEach(data => {
+      const card = addCard(data);
+      section.addItem(card);
+    })
+  })
 
 const initialCards = [
   {
@@ -109,9 +124,8 @@ function handleFormPlaceSubmit(data) {
 infoEditButton.addEventListener('click', openPopupBio);
 newPlaceButton.addEventListener('click', openPopupAddPlace);
 
-//PR-8
-const section = new Section({ items: initialCards, renderer: placeCard }, '.elements');
 
+const section = new Section({ items: initialCards, renderer: placeCard }, '.elements');
 const imagePopup = new PopupWithImage('.popup_type_img-zoom');
 const updateBioPopup = new PopupWithForm('.popup_type_bio', handleFormBioSubmit);
 const addCardPopup = new PopupWithForm('.popup_type_place', handleFormPlaceSubmit);
