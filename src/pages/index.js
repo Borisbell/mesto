@@ -108,7 +108,13 @@ function handleFormBioSubmit (data) {
   // Получите значение полей jobInput и nameInput из свойства value
   const newName = data.firstname;
   const newJob = data.job;
-  userInfo.setUserInfo(newName, newJob);
+
+  api.editProfile(newName, newJob)
+    .then(res => {
+      console.log('res', res);
+      userInfo.setUserInfo(res.name, res.about);
+    })
+
   updateBioPopup.closePopup();
 }
 

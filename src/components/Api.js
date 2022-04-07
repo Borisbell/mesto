@@ -18,7 +18,17 @@ class Api {
     .then(res => res.ok ? res.json() : Promise.reject(res.status))
   }
 
-  // другие методы работы с API
+  editProfile(name, about) {
+    return fetch(`${this._baseUrl}/users/me`, {
+      method: 'PATCH',
+      headers: this._headers,
+      body: JSON.stringify({
+      name,
+      about
+      })
+    })
+    .then(res => res.ok ? res.json() : Promise.reject(res.status))
+  }
 }
 
 export const api = new Api({
