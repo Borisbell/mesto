@@ -1,0 +1,4 @@
+.card__like-count {
+  color: var(--bg-dark-color);
+  font-family: "Inter", Arial, Helvetica, sans-serif;
+}
