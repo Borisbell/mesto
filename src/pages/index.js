@@ -89,7 +89,8 @@ cardAddValidator.enableValidation();
 
 function addCard(cardElement) {
   const card = new Card(cardElement, '#card__template', () => {
-    imagePopup.openPopup(cardElement.name, cardElement.link);},
+    imagePopup.openPopup(cardElement.name, cardElement.link);
+    },
     (id) => {
       confirmDeletePopup.openPopup();
       confirmDeletePopup.changeSubmitHandler(() => {
@@ -99,6 +100,19 @@ function addCard(cardElement) {
             confirmDeletePopup.closePopup();
           })
       });
+    },
+    (id) => {
+      if(card.isLiked()) {
+        api.deleteLike(id)
+        .then( res =>{
+          card.setLikes(res.likes);
+        })
+      } else {
+        api.addLike(id)
+        .then( res =>{
+          card.setLikes(res.likes);
+        })
+      }
     }
   );
   return card.createCard();

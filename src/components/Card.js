@@ -1,5 +1,5 @@
 export class Card {
-  constructor(data, cardTemplateSelector, handleImgClick, handleDeleteClick) {
+  constructor(data, cardTemplateSelector, handleImgClick, handleDeleteClick, handleLikeClick) {
     this._cardTemplate = document.querySelector(cardTemplateSelector).content.querySelector('.card');
     this._name = data.name;
     this._link = data.link;
@@ -10,10 +10,20 @@ export class Card {
 
     this._handleDeleteClick = handleDeleteClick;
     this._handleImgClick = handleImgClick;
+    this._handleLikeClick = handleLikeClick;
   }
 
-  _handleLike = () => {
-    this._likeButton.classList.toggle('card__like-btn_state_active');
+  _fillLikeIcon() {
+    this._likeButton.classList.add('card__like-btn_state_active');
+  }
+
+  _clearLikeIcon() {
+    this._likeButton.classList.remove('card__like-btn_state_active');
+  }
+
+  isLiked() {
+    const userLikedCard = this._likes.find(user => user._id === this._userId);
+    return userLikedCard;
   }
 
   deleteCard() {
@@ -21,14 +31,21 @@ export class Card {
     this._newItem = null;
   }
 
-  _setLikes() {
-    const likes = this._newItem.querySelector('.card__like-count');
-    likes.textContent = this._likes.length;
+  setLikes(likesUpdated) {
+    this._likes = likesUpdated;
+    const likesElement = this._newItem.querySelector('.card__like-count');
+    likesElement.textContent = this._likes.length;
+
+    if(this.isLiked()){
+      this._fillLikeIcon();
+    } else {
+      this._clearLikeIcon();
+    }
   }
 
   _setEventListeners() {
-    this._likeButton.addEventListener('click', this._handleLike);
-    this._deleteButton.addEventListener('click', () => {this._handleDeleteClick(this._id)});
+    this._likeButton.addEventListener('click', () => { this._handleLikeClick(this._id)});
+    this._deleteButton.addEventListener('click', () => { this._handleDeleteClick(this._id)});
     this._cardImg.addEventListener('click', this._handleImgClick);
   }
 
@@ -41,7 +58,7 @@ export class Card {
 
     this._cardImg.src = this._link;
     this._cardImg.alt = this._name;
-    this._setLikes();
+    this.setLikes(this._likes);
 
     if (this._userId !== this._ownerId){
       this._deleteButton.style.display = 'none';
