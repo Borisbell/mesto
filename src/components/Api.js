@@ -30,6 +30,17 @@ class Api {
     .then(res => res.ok ? res.json() : Promise.reject(res.status))
   }
 
+  updateAvatar(avatar) {
+    return fetch(`${this._baseUrl}/users/me/avatar`, {
+      method: 'PATCH',
+      headers: this._headers,
+      body: JSON.stringify({
+      avatar
+      })
+    })
+    .then(res => res.ok ? res.json() : Promise.reject(res.status))
+  }
+
   addCard(name, link){
     return fetch(`${this._baseUrl}/cards`, {
       method: 'POST',

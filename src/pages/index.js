@@ -12,6 +12,7 @@ let userId;
 api.getProfile()
   .then(res => {
     userInfo.setUserInfo(res.name, res.about);
+    userInfo.setUserAvatar(res.avatar);
     userId = res._id;
   })
 
@@ -31,37 +32,10 @@ api.getInitialCards()
   })
 })
 
-// const initialCards = [
-//   {
-//     name: 'Архыз',
-//     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-//   },
-//   {
-//     name: 'Челябинская область',
-//     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-//   },
-//   {
-//     name: 'Иваново',
-//     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-//   },
-//   {
-//     name: 'Камчатка',
-//     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-//   },
-//   {
-//     name: 'Холмогорский район',
-//     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-//   },
-//   {
-//     name: 'Байкал',
-//     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-//   }
-// ];
-
 // Buttons+popup
-
 const infoEditButton = document.querySelector('.profile__info-edit');
 const newPlaceButton = document.querySelector('.profile__add-btn');
+const editAvatarButton = document.querySelector('.profile__avatar');
 
 // Inputs profile popup
 const nameInput = document.querySelector('.popup__input_content_user-name');
@@ -139,7 +113,7 @@ function openPopupAddPlace(){
 }
 
 // Update bio
-function handleFormBioSubmit (data) {
+function handleFormBioSubmit(data) {
   // Получите значение полей jobInput и nameInput из свойства value
   const newName = data.firstname;
   const newJob = data.job;
@@ -153,10 +127,22 @@ function handleFormBioSubmit (data) {
   updateBioPopup.closePopup();
 }
 
+// Update avatar
+function handleAvatarUpdateSubmit (data) {
+  console.log(data);
+  const avatar = data.image;
+
+  api.updateAvatar(avatar)
+    .then(res => {
+      console.log('res', res);
+      userInfo.setUserAvatar(res.avatar);
+    })
+
+    confirmAvatarChange.closePopup();
+}
+
 // Add new card
 function handleFormPlaceSubmit(data) {
-
-
   api.addCard(data['place-name'], data.image)
     .then(res => {
       const newCard = addCard({
@@ -175,7 +161,9 @@ function handleFormPlaceSubmit(data) {
 
 infoEditButton.addEventListener('click', openPopupBio);
 newPlaceButton.addEventListener('click', openPopupAddPlace);
-
+editAvatarButton.addEventListener('click', () => {
+  confirmAvatarChange.openPopup();
+})
 
 const section = new Section({ items: [], renderer: placeCard }, '.elements');
 const imagePopup = new PopupWithImage('.popup_type_img-zoom');
@@ -184,11 +172,13 @@ const addCardPopup = new PopupWithForm('.popup_type_place', handleFormPlaceSubmi
 const confirmDeletePopup = new PopupWithForm('.popup_type_delete-confirm', ()=>{
   api.deleteCard()
 });
-const userInfo = new UserInfo('.profile__info-name',  '.profile__info-job');
+const confirmAvatarChange = new PopupWithForm('.popup_type_avatar-confirm', handleAvatarUpdateSubmit);
+const userInfo = new UserInfo('.profile__info-name',  '.profile__info-job', '.profile__avatar');
 
 imagePopup.setEventListeners();
 updateBioPopup.setEventListeners();
 addCardPopup.setEventListeners();
 confirmDeletePopup.setEventListeners();
+confirmAvatarChange.setEventListeners();
 
 section.renderItems();
