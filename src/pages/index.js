@@ -35,7 +35,7 @@ api.getInitialCards()
 // Buttons+popup
 const infoEditButton = document.querySelector('.profile__info-edit');
 const newPlaceButton = document.querySelector('.profile__add-btn');
-const editAvatarButton = document.querySelector('.profile__avatar');
+const editAvatarButton = document.querySelector('.profile__avatar-container');
 
 // Inputs profile popup
 const nameInput = document.querySelector('.popup__input_content_user-name');

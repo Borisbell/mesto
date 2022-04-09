@@ -16,7 +16,12 @@
     <main>
       <section class="profile">
         <div class="profile__content">
-          <img src="<%=require('./images/profile/ava.jpg')%>" alt="Аватар" class="profile__avatar">
+          <div class="profile__avatar-container">
+            <img src="<%=require('./images/profile/ava.jpg')%>" alt="Аватар" class="profile__avatar">
+            <div class="profile__avatar-overlay">
+              <img src="<%=require('./images/profile/edit-btn-icon.svg')%>" alt="Редактировать" class="profile__avatar-edit">
+            </div>
+          </div>
           <div class="profile__info">
             <div class="profile__info-main">
               <h1 class="profile__info-name"></h1>
