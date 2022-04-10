@@ -6,6 +6,10 @@
   right: 0;
   height: 100%;
   width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
   opacity: 0;
   transition: .3s ease;
   background-color: rgba(0, 0, 0, 0.8);;
@@ -13,4 +17,5 @@
 
 .profile__avatar-overlay:hover {
   opacity: 1;
+  cursor: pointer;
 }

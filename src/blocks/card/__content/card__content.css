@@ -1,6 +1,6 @@
 .card__content{
   display: flex;
-  align-items: baseline;
-  padding: 25px 15px 31px 21px;
+  align-items: center;
+  padding: 25px 15px 22px 21px;
   justify-content: space-between;
 }

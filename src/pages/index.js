@@ -18,7 +18,6 @@ api.getProfile()
 
 api.getInitialCards()
 .then( cardList => {
-  console.log('cards from server = ', cardList);
   cardList.forEach(data => {
     const card = addCard({
       name: data.name,
@@ -117,10 +116,8 @@ function handleFormBioSubmit(data) {
   // Получите значение полей jobInput и nameInput из свойства value
   const newName = data.firstname;
   const newJob = data.job;
-
   api.editProfile(newName, newJob)
     .then(res => {
-      console.log('res', res);
       userInfo.setUserInfo(res.name, res.about);
     })
 
@@ -129,12 +126,10 @@ function handleFormBioSubmit(data) {
 
 // Update avatar
 function handleAvatarUpdateSubmit (data) {
-  console.log(data);
   const avatar = data.image;
 
   api.updateAvatar(avatar)
     .then(res => {
-      console.log('res', res);
       userInfo.setUserAvatar(res.avatar);
     })
 
@@ -155,8 +150,12 @@ function handleFormPlaceSubmit(data) {
       });
       section.addItem(newCard);
     })
+    .catch((err) => {
+      renderError(`Ошибка: ${err}`);
+    })
   formPlace.reset();
   addCardPopup.closePopup();
+  addCardPopup.dataLoading(false);
 }
 
 infoEditButton.addEventListener('click', openPopupBio);
