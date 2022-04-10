@@ -20,7 +20,6 @@ export class PopupWithForm extends Popup {
   }
 
   dataLoading(isLoading) {
-    console.log('button', this._submitButton, '| button text', this._submitButton.textContent);
     if(isLoading){
       this._submitButton.textContent = 'Сохранение...'
     } else {
