@@ -25,14 +25,8 @@ Promise.all([api.getProfile(), api.getInitialCards()])
     userId = userData._id;
     // и тут отрисовка карточек
     cards.forEach(data => {
-      const card = addCard({
-        name: data.name,
-        link: data.link,
-        likes: data.likes,
-        _id: data._id,
-        userId: userId,
-        ownerId: data.owner._id
-      });
+      data.userId = userData._id;
+      const card = addCard(data);
       section.addItem(card);
     })
   })
@@ -46,6 +40,7 @@ cardAddValidator.enableValidation();
 changeAvatarValidator.enableValidation();
 
 function addCard(cardElement) {
+  cardElement.userId = userId;
   const card = new Card(cardElement, '#card__template', () => {
     imagePopup.openPopup(cardElement.name, cardElement.link);
     },
@@ -57,6 +52,9 @@ function addCard(cardElement) {
             card.deleteCard();
             confirmDeletePopup.closePopup();
           })
+          .catch(err => {
+            console.log('Ошибка: ', err)
+          })
       });
     },
     (id) => {
@@ -65,10 +63,16 @@ function addCard(cardElement) {
         .then( res =>{
           card.setLikes(res.likes);
         })
+        .catch(err => {
+          console.log('Ошибка: ', err)
+        })
       } else {
         api.addLike(id)
         .then( res =>{
           card.setLikes(res.likes);
+        })
+        .catch(err => {
+          console.log('Ошибка: ', err)
         })
       }
     }
@@ -134,14 +138,9 @@ function handleAvatarUpdateSubmit (data) {
 function handleFormPlaceSubmit(data) {
   api.addCard(data['place-name'], data.image)
     .then(res => {
-      const newCard = addCard({
-        name: res.name,
-        link: res.link,
-        likes: res.likes,
-        _id: res._id,
-        userId: userId,
-        ownerId: res.owner._id
-      });
+      const newCard = addCard(
+        res
+      );
       section.addItem(newCard);
       addCardPopup.closePopup();
     })
