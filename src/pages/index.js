@@ -1,4 +1,12 @@
-import { FormValidator } from '../components/FormValidator.js';
+import {infoEditButton,
+        newPlaceButton,
+        editAvatarButton,
+        nameInput,
+        jobInput,
+        profileEditValidator,
+        cardAddValidator,
+        changeAvatarValidator
+      } from '../components/constants.js'
 import { Card } from '../components/Card.js';
 import { Section } from '../components/Section.js';
 import { PopupWithImage } from '../components/PopupWithImage.js';
@@ -9,56 +17,33 @@ import './index.css';
 
 let userId;
 
-api.getProfile()
-  .then(res => {
-    userInfo.setUserInfo(res.name, res.about);
-    userInfo.setUserAvatar(res.avatar);
-    userId = res._id;
+Promise.all([api.getProfile(), api.getInitialCards()])
+  .then(([userData, cards]) => {
+    // тут установка данных пользователя
+    userInfo.setUserInfo(userData.name, userData.about);
+    userInfo.setUserAvatar(userData.avatar);
+    userId = userData._id;
+    // и тут отрисовка карточек
+    cards.forEach(data => {
+      const card = addCard({
+        name: data.name,
+        link: data.link,
+        likes: data.likes,
+        _id: data._id,
+        userId: userId,
+        ownerId: data.owner._id
+      });
+      section.addItem(card);
+    })
   })
+  .catch(err => {
+    console.log('Ошибка: ', err)
+  });
 
-api.getInitialCards()
-.then( cardList => {
-  cardList.forEach(data => {
-    const card = addCard({
-      name: data.name,
-      link: data.link,
-      likes: data.likes,
-      _id: data._id,
-      userId: userId,
-      ownerId: data.owner._id
-    });
-    section.addItem(card);
-  })
-})
-
-// Buttons+popup
-const infoEditButton = document.querySelector('.profile__info-edit');
-const newPlaceButton = document.querySelector('.profile__add-btn');
-const editAvatarButton = document.querySelector('.profile__avatar-container');
-
-// Inputs profile popup
-const nameInput = document.querySelector('.popup__input_content_user-name');
-const jobInput = document.querySelector('.popup__input_content_job');
-
-// Inputs places popup
-const formPlace = document.querySelector('.popup__form-place');
-
-const validationConfig = {
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__submit',
-  inactiveButtonClass: 'popup__submit_disabled',
-  inputErrorClass: 'popup__input_type_error',
-}
-
-const profileEditForm = document.querySelector('#form-profile-edit');
-const addCardForm = document.querySelector('#form-place-add');
-
-const profileEditValidator = new FormValidator(validationConfig, profileEditForm);
-const cardAddValidator = new FormValidator(validationConfig, addCardForm);
 
 profileEditValidator.enableValidation();
 cardAddValidator.enableValidation();
+changeAvatarValidator.enableValidation();
 
 function addCard(cardElement) {
   const card = new Card(cardElement, '#card__template', () => {
@@ -111,6 +96,12 @@ function openPopupAddPlace(){
   addCardPopup.openPopup();
 }
 
+// Open popup to change avatar
+function openPopupChangeAvatar(){
+  changeAvatarValidator.toggleButtonState();
+  confirmAvatarChange.openPopup();
+}
+
 // Update bio
 function handleFormBioSubmit(data) {
   // Получите значение полей jobInput и nameInput из свойства value
@@ -119,21 +110,24 @@ function handleFormBioSubmit(data) {
   api.editProfile(newName, newJob)
     .then(res => {
       userInfo.setUserInfo(res.name, res.about);
+      updateBioPopup.closePopup();
     })
-
-  updateBioPopup.closePopup();
+    .catch(err => {
+      console.log('Ошибка: ', err)
+    });
 }
 
 // Update avatar
 function handleAvatarUpdateSubmit (data) {
   const avatar = data.image;
-
   api.updateAvatar(avatar)
     .then(res => {
       userInfo.setUserAvatar(res.avatar);
+      confirmAvatarChange.closePopup();
     })
-
-    confirmAvatarChange.closePopup();
+    .catch(err => {
+      console.log('Ошибка: ', err)
+    });
 }
 
 // Add new card
@@ -149,28 +143,22 @@ function handleFormPlaceSubmit(data) {
         ownerId: res.owner._id
       });
       section.addItem(newCard);
+      addCardPopup.closePopup();
     })
     .catch((err) => {
       renderError(`Ошибка: ${err}`);
     })
-  formPlace.reset();
-  addCardPopup.closePopup();
-  addCardPopup.dataLoading(false);
 }
 
 infoEditButton.addEventListener('click', openPopupBio);
 newPlaceButton.addEventListener('click', openPopupAddPlace);
-editAvatarButton.addEventListener('click', () => {
-  confirmAvatarChange.openPopup();
-})
+editAvatarButton.addEventListener('click', openPopupChangeAvatar);
 
 const section = new Section({ items: [], renderer: placeCard }, '.elements');
 const imagePopup = new PopupWithImage('.popup_type_img-zoom');
 const updateBioPopup = new PopupWithForm('.popup_type_bio', handleFormBioSubmit);
 const addCardPopup = new PopupWithForm('.popup_type_place', handleFormPlaceSubmit);
-const confirmDeletePopup = new PopupWithForm('.popup_type_delete-confirm', ()=>{
-  api.deleteCard()
-});
+const confirmDeletePopup = new PopupWithForm('.popup_type_delete-confirm', ()=>{});
 const confirmAvatarChange = new PopupWithForm('.popup_type_avatar-confirm', handleAvatarUpdateSubmit);
 const userInfo = new UserInfo('.profile__info-name',  '.profile__info-job', '.profile__avatar');
 
@@ -179,5 +167,3 @@ updateBioPopup.setEventListeners();
 addCardPopup.setEventListeners();
 confirmDeletePopup.setEventListeners();
 confirmAvatarChange.setEventListeners();
-
-section.renderItems();

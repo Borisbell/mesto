@@ -33,8 +33,7 @@ export class Card {
 
   setLikes(likesUpdated) {
     this._likes = likesUpdated;
-    const likesElement = this._newItem.querySelector('.card__like-count');
-    likesElement.textContent = this._likes.length;
+    this._likesElement.textContent = this._likes.length;
 
     if(this.isLiked()){
       this._fillLikeIcon();
@@ -55,6 +54,7 @@ export class Card {
     this._likeButton = this._newItem.querySelector('.card__like-btn');
     this._deleteButton = this._newItem.querySelector('.card__delete-btn');
     this._cardImg = this._newItem.querySelector('.card__img');
+    this._likesElement = this._newItem.querySelector('.card__like-count');
 
     this._cardImg.src = this._link;
     this._cardImg.alt = this._name;
