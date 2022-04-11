@@ -3,10 +3,9 @@ import {infoEditButton,
         editAvatarButton,
         nameInput,
         jobInput,
-        profileEditValidator,
-        cardAddValidator,
-        changeAvatarValidator
-      } from '../utils/constants.js'
+        validationConfig
+      } from '../utils/constants.js';
+import { FormValidator } from '../components/FormValidator.js';
 import { Card } from '../components/Card.js';
 import { Section } from '../components/Section.js';
 import { PopupWithImage } from '../components/PopupWithImage.js';
@@ -33,9 +32,22 @@ Promise.all([api.getProfile(), api.getInitialCards()])
     console.log('Ошибка: ', err)
   });
 
-profileEditValidator.enableValidation();
-cardAddValidator.enableValidation();
-changeAvatarValidator.enableValidation();
+const formValidators = {}
+
+// Включение валидации
+const enableValidation = (config) => {
+  const formList = Array.from(document.querySelectorAll(config.formSelector))
+  formList.forEach((formElement) => {
+    const validator = new FormValidator(config, formElement)
+    // получаем данные из атрибута `name` у формы
+    const formName = formElement.getAttribute('name')
+    // в объект записываем под именем формы
+    formValidators[formName] = validator;
+    validator.enableValidation();
+  });
+};
+
+enableValidation(validationConfig);
 
 function addCard(cardElement) {
   cardElement.userId = userId;
@@ -85,7 +97,7 @@ function placeCard(newCard) {
 
 // Open popup edit profile
 function openPopupBio(){
-  profileEditValidator.toggleButtonState();
+  formValidators['profile-edit'].toggleButtonState();
   const data = userInfo.getUserInfo();
   nameInput.value = data.name;
   jobInput.value = data.job;
@@ -94,13 +106,13 @@ function openPopupBio(){
 
 // Open popup add place
 function openPopupAddPlace(){
-  cardAddValidator.toggleButtonState();
+  formValidators['place-add'].toggleButtonState();
   addCardPopup.openPopup();
 }
 
 // Open popup to change avatar
 function openPopupChangeAvatar(){
-  changeAvatarValidator.toggleButtonState();
+  formValidators['avatar-edit-confirm'].toggleButtonState();
   confirmAvatarChange.openPopup();
 }
 
