@@ -6,7 +6,7 @@ import {infoEditButton,
         profileEditValidator,
         cardAddValidator,
         changeAvatarValidator
-      } from '../components/constants.js'
+      } from '../utils/constants.js'
 import { Card } from '../components/Card.js';
 import { Section } from '../components/Section.js';
 import { PopupWithImage } from '../components/PopupWithImage.js';
@@ -20,10 +20,9 @@ let userId;
 Promise.all([api.getProfile(), api.getInitialCards()])
   .then(([userData, cards]) => {
     // тут установка данных пользователя
-    userInfo.setUserInfo(userData.name, userData.about);
-    userInfo.setUserAvatar(userData.avatar);
+    userInfo.setUserInfo(userData);
     userId = userData._id;
-    // и тут отрисовка карточек
+    // отрисовка карточек
     cards.forEach(data => {
       data.userId = userData._id;
       const card = addCard(data);
@@ -33,7 +32,6 @@ Promise.all([api.getProfile(), api.getInitialCards()])
   .catch(err => {
     console.log('Ошибка: ', err)
   });
-
 
 profileEditValidator.enableValidation();
 cardAddValidator.enableValidation();
@@ -113,7 +111,7 @@ function handleFormBioSubmit(data) {
   const newJob = data.job;
   api.editProfile(newName, newJob)
     .then(res => {
-      userInfo.setUserInfo(res.name, res.about);
+      userInfo.setUserInfo(res);
       updateBioPopup.closePopup();
     })
     .catch(err => {
@@ -126,7 +124,8 @@ function handleAvatarUpdateSubmit (data) {
   const avatar = data.image;
   api.updateAvatar(avatar)
     .then(res => {
-      userInfo.setUserAvatar(res.avatar);
+      console.log(res);
+      userInfo.setUserInfo(res);
       confirmAvatarChange.closePopup();
     })
     .catch(err => {
@@ -138,9 +137,7 @@ function handleAvatarUpdateSubmit (data) {
 function handleFormPlaceSubmit(data) {
   api.addCard(data['place-name'], data.image)
     .then(res => {
-      const newCard = addCard(
-        res
-      );
+      const newCard = addCard(res);
       section.addItem(newCard);
       addCardPopup.closePopup();
     })
