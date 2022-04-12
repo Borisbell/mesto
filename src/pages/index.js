@@ -21,12 +21,8 @@ Promise.all([api.getProfile(), api.getInitialCards()])
     // тут установка данных пользователя
     userInfo.setUserInfo(userData);
     userId = userData._id;
-    // отрисовка карточек
-    cards.forEach(data => {
-      data.userId = userData._id;
-      const card = addCard(data);
-      section.addItem(card);
-    })
+    // // отрисовка карточек
+    section.renderItems(cards);
   })
   .catch(err => {
     console.log('Ошибка: ', err)
@@ -60,11 +56,14 @@ function addCard(cardElement) {
         api.deleteCard(id)
           .then( res => {
             card.deleteCard();
-            confirmDeletePopup.closePopup();
           })
           .catch(err => {
             console.log('Ошибка: ', err)
           })
+          .finally(() => {
+            confirmDeletePopup.closePopup();
+            confirmDeletePopup.renderLoading(false);
+          });
       });
     },
     (id) => {
