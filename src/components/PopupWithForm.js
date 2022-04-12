@@ -31,18 +31,17 @@ export class PopupWithForm extends Popup {
     this._handleSubmit = newSubmitHandler;
   }
 
+  closePopup() {
+    super.closePopup();
+    this._form.reset();
+  }
+
   setEventListeners() {
     super.setEventListeners();
     this._form.addEventListener('submit',  (e) => {
       this.renderLoading(true);
       e.preventDefault();
-      this._handleSubmit(this._getInputValues());
+      this._handleSubmit(this._getInputValues())
     });
-  }
-
-  closePopup() {
-    super.closePopup();
-    this._form.reset();
-    this.renderLoading(false);
   }
 }

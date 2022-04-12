@@ -124,10 +124,13 @@ function handleFormBioSubmit(data) {
   api.editProfile(newName, newJob)
     .then(res => {
       userInfo.setUserInfo(res);
-      updateBioPopup.closePopup();
     })
     .catch(err => {
       console.log('Ошибка: ', err)
+    })
+    .finally(() => {
+      updateBioPopup.closePopup();
+      updateBioPopup.renderLoading(false);
     });
 }
 
@@ -138,10 +141,13 @@ function handleAvatarUpdateSubmit (data) {
     .then(res => {
       console.log(res);
       userInfo.setUserInfo(res);
-      confirmAvatarChange.closePopup();
     })
     .catch(err => {
       console.log('Ошибка: ', err)
+    })
+    .finally(() => {
+      confirmAvatarChange.closePopup();
+      confirmAvatarChange.renderLoading(false);
     });
 }
 
@@ -151,11 +157,14 @@ function handleFormPlaceSubmit(data) {
     .then(res => {
       const newCard = addCard(res);
       section.addItem(newCard);
-      addCardPopup.closePopup();
     })
     .catch((err) => {
       renderError(`Ошибка: ${err}`);
     })
+    .finally(() => {
+      addCardPopup.closePopup();
+      addCardPopup.renderLoading(false);
+    });
 }
 
 infoEditButton.addEventListener('click', openPopupBio);
