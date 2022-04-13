@@ -54,14 +54,16 @@ function addCard(cardElement) {
       confirmDeletePopup.openPopup();
       confirmDeletePopup.changeSubmitHandler(() => {
         api.deleteCard(id)
-          .then( res => {
+          .then( (res) => {
             card.deleteCard();
+          })
+          .then(() => {
+            confirmDeletePopup.closePopup();
           })
           .catch(err => {
             console.log('Ошибка: ', err)
           })
           .finally(() => {
-            confirmDeletePopup.closePopup();
             confirmDeletePopup.renderLoading(false);
           });
       });
@@ -124,11 +126,13 @@ function handleFormBioSubmit(data) {
     .then(res => {
       userInfo.setUserInfo(res);
     })
+    .then(() => {
+      updateBioPopup.closePopup();
+    })
     .catch(err => {
       console.log('Ошибка: ', err)
     })
     .finally(() => {
-      updateBioPopup.closePopup();
       updateBioPopup.renderLoading(false);
     });
 }
@@ -138,14 +142,15 @@ function handleAvatarUpdateSubmit (data) {
   const avatar = data.image;
   api.updateAvatar(avatar)
     .then(res => {
-      console.log(res);
       userInfo.setUserInfo(res);
+    })
+    .then(() => {
+      confirmAvatarChange.closePopup();
     })
     .catch(err => {
       console.log('Ошибка: ', err)
     })
     .finally(() => {
-      confirmAvatarChange.closePopup();
       confirmAvatarChange.renderLoading(false);
     });
 }
@@ -156,6 +161,9 @@ function handleFormPlaceSubmit(data) {
     .then(res => {
       const newCard = addCard(res);
       section.addItem(newCard);
+    })
+    .then(() => {
+      addCardPopup.closePopup();
     })
     .catch((err) => {
       renderError(`Ошибка: ${err}`);
